@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref, toRefs} from "vue";
+import { loginApi } from '../../request/api'
 
 const state = reactive({
   ruleForm: {
@@ -46,7 +47,13 @@ let {ruleForm} = toRefs(state)
 
 const login = () => {
   ruleFormRef.value.validate().then(() => {
-    console.log('then')
+    console.log('校验通过')
+    loginApi({
+      "password": ruleForm.value.password,
+      "username": ruleForm.value.username
+    }).then(res => {
+
+    })
   }).catch(() => {
     console.log('catch')
   })
