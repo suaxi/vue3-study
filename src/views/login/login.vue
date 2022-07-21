@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref, toRefs} from "vue";
-import { loginApi } from '../../request/api'
+import {loginApi} from '../../request/api'
 
 const state = reactive({
   ruleForm: {
@@ -36,10 +36,10 @@ const validatePwd = (rule: unknown, value: string | undefined, callback: (msg?: 
 //校验规则
 const rules = reactive({
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
+    {required: true, message: '请输入用户名', trigger: 'blur'},
   ],
   password: [
-    { validator: validatePwd, trigger: 'blur' }
+    {validator: validatePwd, trigger: 'blur'}
   ]
 })
 
@@ -49,10 +49,12 @@ const login = () => {
   ruleFormRef.value.validate().then(() => {
     console.log('校验通过')
     loginApi({
-      "password": ruleForm.value.password,
-      "username": ruleForm.value.username
+      password: ruleForm.value.password,
+      username: ruleForm.value.username
     }).then(res => {
+      if (res.code === 200) {
 
+      }
     })
   }).catch(() => {
     console.log('catch')
