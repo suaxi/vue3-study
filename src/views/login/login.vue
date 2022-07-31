@@ -19,8 +19,8 @@ import Cookie from 'js-cookie'
 
 const state = reactive({
   ruleForm: {
-    username: '',
-    password: ''
+    username: 'aaa',
+    password: '123456'
   }
 })
 //获取el-form组件对象
@@ -58,12 +58,14 @@ const login = () => {
         Cookie.set('token', res.data.tokenHead + res.data.token, {expires: 1})
         //获取用户信息
         currentUserInfoApi().then(res => {
-
+          if (res.code === 200) {
+            res.data.menus
+          }
         })
       }
     })
   }).catch(() => {
-    console.log('catch')
+    console.log('校验不通过')
   })
 }
 
