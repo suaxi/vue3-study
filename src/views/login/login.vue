@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref, toRefs} from "vue";
-import {loginApi} from '../../request/api'
+import {loginApi, currentUserInfoApi} from '../../request/api'
 import Cookie from 'js-cookie'
 
 const state = reactive({
@@ -54,7 +54,12 @@ const login = () => {
       username: ruleForm.value.username
     }).then(res => {
       if (res.code === 200) {
+        //存储token
         Cookie.set('token', res.data.tokenHead + res.data.token, {expires: 1})
+        //获取用户信息
+        currentUserInfoApi().then(res => {
+
+        })
       }
     })
   }).catch(() => {
