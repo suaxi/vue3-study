@@ -16,6 +16,7 @@
 import {reactive, ref, toRefs} from "vue";
 import {loginApi, currentUserInfoApi} from '../../request/api'
 import Cookie from 'js-cookie'
+import {useRouter} from "vue-router";
 
 const state = reactive({
   ruleForm: {
@@ -25,6 +26,8 @@ const state = reactive({
 })
 //获取el-form组件对象
 let ruleFormRef = ref()
+//获取路由对象
+let router = useRouter();
 
 const validatePwd = (rule: unknown, value: string | undefined, callback: (msg?: string) => void) => {
   if (!value) {
@@ -59,7 +62,8 @@ const login = () => {
         //获取用户信息
         currentUserInfoApi().then(res => {
           if (res.code === 200) {
-            res.data.menus
+            //首页跳转
+            router.push('/homePage')
           }
         })
       }

@@ -2,12 +2,18 @@
   <router-view></router-view>
 </template>
 
-<script>
-export default {
-  name: "App"
-}
+<script lang="ts" setup>
+
 </script>
 
-<style scoped>
+<style lang="less">
+@import url('./assets/styles/rebase.less');
 
+html, body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
 </style>
