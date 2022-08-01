@@ -14,9 +14,10 @@
 
 <script lang="ts" setup>
 import {reactive, ref, toRefs} from "vue";
-import {loginApi, currentUserInfoApi} from '../../request/api'
-import Cookie from 'js-cookie'
+import {loginApi, currentUserInfoApi} from '../../request/api';
+import Cookie from 'js-cookie';
 import {useRouter} from "vue-router";
+import { useStore } from 'vuex';
 
 const state = reactive({
   ruleForm: {
@@ -28,6 +29,8 @@ const state = reactive({
 let ruleFormRef = ref()
 //获取路由对象
 let router = useRouter();
+//获取vuex对象
+let store = useStore();
 
 const validatePwd = (rule: unknown, value: string | undefined, callback: (msg?: string) => void) => {
   if (!value) {
@@ -62,6 +65,8 @@ const login = () => {
         //获取用户信息
         currentUserInfoApi().then(res => {
           if (res.code === 200) {
+            //存储路由
+            store.commit('updateMenus', res.data.menus)
             //首页跳转
             router.push('/homePage')
           }
