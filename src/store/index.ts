@@ -1,8 +1,18 @@
 import { createStore } from "vuex";
 import { App } from 'vue'
 
+interface MenuObj {
+    id: number,
+    parentId: number,
+    children?: MenuObj[]
+}
+
 interface State {
-    menus: {parentId: number}[]
+    menus: MenuObj[]
+}
+
+interface NewMenus {
+    [key: number]: MenuObj
 }
 
 const store = createStore<State>({
@@ -458,14 +468,17 @@ const store = createStore<State>({
             const menus = state.menus;
 
             //新菜单
-            const newMenus = [];
+            const newMenus: NewMenus = {};
             for (let menu of menus) {
                 if (menu.parentId === 0) {
                     //一级菜单
-                    newMenus.push(menu)
+                    //解决引用地址导致孩子节点重复的问题
+                    newMenus[menu.id] = {...menu};
                 } else {
                     //二级菜单
-                    menu
+                    let parentId = menu.parentId;
+                    newMenus[parentId].children = newMenus[parentId].children || [];
+                    newMenus[parentId].children?.push(menu);
                 }
             }
             return newMenus
