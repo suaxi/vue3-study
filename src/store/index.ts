@@ -1,5 +1,5 @@
-import { createStore } from "vuex";
-import { App } from 'vue'
+import {createStore} from "vuex";
+import {App} from 'vue'
 
 interface MenuObj {
     id: number,
@@ -464,19 +464,20 @@ const store = createStore<State>({
     },
     getters: {
         getNewMenus(state) {
-            //原菜单数据
-            const menus = state.menus;
-
             //新菜单
             const newMenus: NewMenus = {};
+            //原菜单数据
+            const menus = state.menus;
             for (let menu of menus) {
                 if (menu.parentId === 0) {
                     //一级菜单
                     //解决引用地址导致孩子节点重复的问题
-                    newMenus[menu.id] = {...menu};
+                    newMenus[menu.id] = {...menu, children: newMenus[menu.id]?.children || []};
                 } else {
                     //二级菜单
                     let parentId = menu.parentId;
+                    //解决遍历时第一次是二级菜单导致children undefined的问题
+                    newMenus[parentId] = newMenus[parentId] || {};
                     newMenus[parentId].children = newMenus[parentId].children || [];
                     newMenus[parentId].children?.push(menu);
                 }

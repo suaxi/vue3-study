@@ -9,15 +9,15 @@
           default-active="2"
           text-color="#fff"
       >
-        <el-sub-menu index="1">
+        <el-sub-menu :index="menu.id" v-for="menu in newMenus" :key="menu.id">
           <template #title>
-            <span>Navigator One</span>
+            <span>{{ menu.title }}</span>
           </template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
+          <template v-for="subMenu in menu.children">
+            <el-menu-item :index="subMenu.id" v-if="subMenu.hidden" :key="subMenu.id">
+              {{ subMenu.title }}
+            </el-menu-item>
+          </template>
         </el-sub-menu>
       </el-menu>
     </div>
@@ -26,6 +26,23 @@
 </template>
 
 <script lang="ts" setup>
+import {useStore} from 'vuex';
+
+const store = useStore();
+
+interface MenuObj {
+  id: number,
+  parentId: number,
+  title: string,
+  hidden: 0 | 1,
+  children?: MenuObj[]
+}
+
+interface NewMenus {
+  [key: number]: MenuObj
+}
+
+const newMenus: NewMenus = store.getters.getNewMenus;
 
 </script>
 
