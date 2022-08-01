@@ -1,7 +1,26 @@
 <template>
   <div class="homePage_container">
     <div class="homePage_header">头部</div>
-    <div class="homePage_menu">菜单</div>
+    <div class="homePage_menu">
+      <el-menu
+          active-text-color="#ffd04b"
+          background-color="#545c64"
+          class="el-menu-vertical-demo"
+          default-active="2"
+          text-color="#fff"
+      >
+        <el-sub-menu index="1">
+          <template #title>
+            <span>Navigator One</span>
+          </template>
+          <el-menu-item index="1-4-1">item one</el-menu-item>
+          <el-menu-item index="1-4-1">item one</el-menu-item>
+          <el-menu-item index="1-4-1">item one</el-menu-item>
+          <el-menu-item index="1-4-1">item one</el-menu-item>
+          <el-menu-item index="1-4-1">item one</el-menu-item>
+        </el-sub-menu>
+      </el-menu>
+    </div>
     <div class="homePage_content">右侧内容</div>
   </div>
 </template>
