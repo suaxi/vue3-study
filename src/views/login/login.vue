@@ -63,13 +63,9 @@ const login = () => {
         //存储token
         Cookie.set('token', res.data.tokenHead + res.data.token, {expires: 1})
         //获取用户信息
-        currentUserInfoApi().then(res => {
-          if (res.code === 200) {
-            //存储路由
-            store.commit('updateMenus', res.data.menus)
-            //首页跳转
-            router.push('/homePage')
-          }
+        store.dispatch('getUserInfo').then(res => {
+          //首页跳转
+          router.push('/homePage')
         })
       }
     })

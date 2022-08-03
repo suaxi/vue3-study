@@ -8,13 +8,15 @@
           class="el-menu-vertical-demo"
           default-active="2"
           text-color="#fff"
+          :unique-opened="true"
+          :router="true"
       >
-        <el-sub-menu :index="menu.id" v-for="menu in newMenus" :key="menu.id">
+        <el-sub-menu :index="menu.id + ''" v-for="menu in newMenus" :key="menu.id">
           <template #title>
             <span>{{ menu.title }}</span>
           </template>
           <template v-for="subMenu in menu.children">
-            <el-menu-item :index="subMenu.id" v-if="subMenu.hidden" :key="subMenu.id">
+            <el-menu-item :index="subMenu.id + ''" v-if="subMenu.hidden" :key="subMenu.id">
               {{ subMenu.title }}
             </el-menu-item>
           </template>
