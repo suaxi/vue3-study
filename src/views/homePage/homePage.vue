@@ -16,14 +16,16 @@
             <span>{{ menu.title }}</span>
           </template>
           <template v-for="subMenu in menu.children">
-            <el-menu-item :index="subMenu.id + ''" v-if="subMenu.hidden" :key="subMenu.id">
+            <el-menu-item :index="'/' + menu.name + '/' + subMenu.name" v-if="subMenu.hidden" :key="subMenu.id">
               {{ subMenu.title }}
             </el-menu-item>
           </template>
         </el-sub-menu>
       </el-menu>
     </div>
-    <div class="homePage_content">右侧内容</div>
+    <div class="homePage_content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -38,7 +40,8 @@ interface MenuObj {
   parentId: number,
   title: string,
   hidden: 0 | 1,
-  children?: MenuObj[]
+  children?: MenuObj[],
+  name: string
 }
 
 interface NewMenus {
