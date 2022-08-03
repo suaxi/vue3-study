@@ -48,18 +48,20 @@ router.beforeEach((to, from, next) => {
                     component: () => import('../views/homePage/homePage.vue'),
                     children: []
                 };
-                for(let i = 0; i < menus[menu].children.length; i++) {
+                for (let i = 0; i < menus[menu].children.length; i++) {
                     newRouter.children?.push({
                         path: menus[menu].children[i].name,
                         name: menus[menu].children[i].name,
-                        component: () => import(`../views/${menus[menu].name}/${menus[menu].children[i].name}`)
+                        component: () => import(`../views/${menus[menu].name}/${menus[menu].children[i].name}.vue`)
                     })
                 }
                 router.addRoute(newRouter)
             }
+            next(to.path);
         })
+    } else {
+        next();
     }
-    next();
 })
 
 export const initRouter = (app: App<Element>) => {

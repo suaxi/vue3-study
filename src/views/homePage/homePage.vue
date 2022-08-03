@@ -16,7 +16,7 @@
             <span>{{ menu.title }}</span>
           </template>
           <template v-for="subMenu in menu.children">
-            <el-menu-item :index="'/' + menu.name + '/' + subMenu.name" v-if="subMenu.hidden" :key="subMenu.id">
+            <el-menu-item :index="'/' + menu.name + '/' + subMenu.name">
               {{ subMenu.title }}
             </el-menu-item>
           </template>
