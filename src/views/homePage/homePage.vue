@@ -29,6 +29,7 @@
 
 <script lang="ts" setup>
 import {useStore} from 'vuex';
+import {computed} from "vue";
 
 const store = useStore();
 
@@ -44,7 +45,8 @@ interface NewMenus {
   [key: number]: MenuObj
 }
 
-const newMenus: NewMenus = store.getters.getNewMenus;
+//请求成功，vuex中没有菜单信息使用computed计算属性重新计算
+const newMenus = computed<NewMenus>(() => store.getters.getNewMenus);
 
 </script>
 
