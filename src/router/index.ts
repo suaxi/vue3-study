@@ -8,24 +8,7 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         name: 'login',
         component: () => import('../views/login/login.vue')
-    },
-    {
-        path: '/homePage',
-        name: 'homePage',
-        component: () => import('../views/homePage/homePage.vue')
-    },
-    // {
-    //     path: '/pms',
-    //     name: 'pms',
-    //     component: () => import('../views/homePage/homePage.vue'),
-    //     children: [
-    //         {
-    //             path: '/product',
-    //             name: 'product',
-    //             component: () => import('../views/pms/product.vue'),
-    //         }
-    //     ]
-    // }
+    }
 ]
 
 const router = createRouter({
@@ -46,6 +29,7 @@ router.beforeEach((to, from, next) => {
                     path: '/' + menus[menu].name,
                     name: menus[menu].name,
                     component: () => import('../views/homePage/homePage.vue'),
+                    redirect: '/' + menus[menu].name + '/' + menus[menu].children[0].name,
                     children: []
                 };
                 for (let i = 0; i < menus[menu].children.length; i++) {
@@ -57,6 +41,18 @@ router.beforeEach((to, from, next) => {
                 }
                 router.addRoute(newRouter)
             }
+            //动态添加首页
+            router.addRoute({
+                path: '/',
+                name: 'homePage',
+                component: () => import('../views/homePage/homePage.vue'),
+                redirect: '/index',
+                children: [{
+                    path: 'index',
+                    name: 'index',
+                    component: () => import('../views/index/index.vue'),
+                }]
+            })
             next(to.path);
         })
     } else {
