@@ -64,6 +64,10 @@ router.beforeEach((to, from, next) => {
         //第一次登录,/homePage作为标志位，解决 from /login to /index死循环的问题
         initRoutes();
         next('/index');
+    } else if (!token && to.path !== '/login') {
+        next('/login');
+    } else if (token && to.path == '/login') {
+        next(from);
     } else {
         next();
     }
