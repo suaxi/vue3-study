@@ -23,17 +23,16 @@
 </template>
 
 <script lang="ts" setup>
-
 import {defineProps, reactive, toRefs, watch} from "vue";
 
 const props = defineProps<{
   visible: boolean,
-  form: { username: string }
+  form: UserInfoObj
 }>()
 
 const state = reactive<{
   formLabelWidth: string,
-  newForm: { username?: string }
+  newForm: UserInfoObj
 }>({
   formLabelWidth: '120px',
   newForm: {}

@@ -37,7 +37,7 @@ import EditUserInfo from './components/EditUserInfo.vue'
 const state = reactive<{
   tableData: {}[],
   visible: boolean,
-  rowData: {}
+  rowData: UserInfoObj
 }>({
   tableData: [],
   visible: false,
@@ -57,7 +57,7 @@ userList({
 })
 
 //编辑
-const edit = (row: {}) => {
+const edit = (row: UserInfoObj) => {
   visible.value = true;
   rowData.value = row;
 }
