@@ -46,15 +46,20 @@ const state = reactive<{
 
 const {tableData, visible, rowData} = toRefs(state)
 
-userList({
-  keywords: '',
-  pageNum: 1,
-  pageSize: 10
-}).then(res => {
-  if (res.code === 200) {
-    tableData.value = res.data.list
-  }
-})
+const loadUserList = () => {
+  userList({
+    keywords: '',
+    pageNum: 1,
+    pageSize: 10
+  }).then(res => {
+    if (res.code === 200) {
+      tableData.value = res.data.list
+    }
+  })
+}
+
+//第一次进入页面时加载
+loadUserList();
 
 //编辑
 const edit = (row: UserInfoObj) => {
@@ -63,8 +68,12 @@ const edit = (row: UserInfoObj) => {
 }
 
 //关闭弹框
-const close = () => {
+const close = (reload?: 'reload') => {
   visible.value = false;
+  if (reload === 'reload') {
+    //修改用户信息后刷新表格数据
+    loadUserList();
+  }
 }
 
 //格式化时间

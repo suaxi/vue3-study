@@ -5,7 +5,7 @@ interface loginData {
     username: string
 }
 
-type PromiseRes<T> = Promise<Result<T>>
+type PromiseRes<T = {}> = Promise<Result<T>>
 
 interface Result<T = {}> {
     code: number,
@@ -41,3 +41,6 @@ export const  currentUserInfoApi = (): PromiseRes<userInfoRes> => request.get('/
 
 //用户列表
 export const userList = (data: userListParams): PromiseRes<userListRes> => request.get('/admin/list', {params: data})
+
+//修改用户信息
+export const updateUserInfo = (id: number, data: UserInfoObj): PromiseRes => request.post('/admin/update/' + id, data)
