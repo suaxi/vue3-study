@@ -10,26 +10,39 @@
       </template>
     </el-table-column>
     <el-table-column prop="loginTime" label="最后登录">
-      <template v-slot:default="scope">
+      <template #default="scope">
         {{ formatDate(scope.row.loginTime) }}
       </template>
     </el-table-column>
-    <el-table-column prop="status" label="是否启用"/>
-    <el-table-column label="操作"/>
+    <el-table-column label="是否启用">
+      <template #default="scope">
+        <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0"/>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template #default="scope">
+        <el-button type="text">分配角色</el-button>
+        <el-button type="text" @click="edit">编辑</el-button>
+      </template>
+    </el-table-column>
   </el-table>
+  <EditUserInfo :visible="visible" @close="close"/>
 </template>
 
 <script lang="ts" setup>
 import {reactive, toRefs} from "vue";
 import {userList} from '../../request/api'
+import EditUserInfo from './components/EditUserInfo.vue'
 
 const state = reactive<{
-  tableData: {}[]
+  tableData: {}[],
+  visible: boolean
 }>({
-  tableData: []
+  tableData: [],
+  visible: false
 })
 
-const {tableData} = toRefs(state)
+const {tableData, visible} = toRefs(state)
 
 userList({
   keywords: '',
@@ -40,6 +53,16 @@ userList({
     tableData.value = res.data.list
   }
 })
+
+//编辑
+const edit = () => {
+  visible.value = true;
+}
+
+//关闭弹框
+const close = () => {
+  visible.value = false;
+}
 
 //格式化时间
 const formatDate = (date: string | undefined) => {
