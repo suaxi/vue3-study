@@ -20,13 +20,13 @@
       </template>
     </el-table-column>
     <el-table-column label="操作">
-      <template #default="scope">
+      <template #default="{ row }">
         <el-button type="text">分配角色</el-button>
-        <el-button type="text" @click="edit">编辑</el-button>
+        <el-button type="text" @click="edit(row)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
-  <EditUserInfo :visible="visible" @close="close"/>
+  <EditUserInfo :visible="visible" @close="close" :form="rowData"/>
 </template>
 
 <script lang="ts" setup>
@@ -36,13 +36,15 @@ import EditUserInfo from './components/EditUserInfo.vue'
 
 const state = reactive<{
   tableData: {}[],
-  visible: boolean
+  visible: boolean,
+  rowData: {}
 }>({
   tableData: [],
-  visible: false
+  visible: false,
+  rowData: {}
 })
 
-const {tableData, visible} = toRefs(state)
+const {tableData, visible, rowData} = toRefs(state)
 
 userList({
   keywords: '',
@@ -55,8 +57,9 @@ userList({
 })
 
 //编辑
-const edit = () => {
+const edit = (row: {}) => {
   visible.value = true;
+  rowData.value = row;
 }
 
 //关闭弹框

@@ -1,11 +1,11 @@
 <template>
   <el-dialog v-model="visible" title="Shipping address" :before-close="close">
-    <el-form :model="form" :label-width="formLabelWidth">
+    <el-form :model="newForm" :label-width="formLabelWidth">
       <el-form-item label="Promotion name">
-        <el-input v-model="form.name" autocomplete="off"/>
+        <el-input v-model="newForm.username" autocomplete="off"/>
       </el-form-item>
       <el-form-item label="Zones" :label-width="formLabelWidth">
-        <el-select v-model="form.name" placeholder="Please select a zone">
+        <el-select v-model="newForm.username" placeholder="Please select a zone">
           <el-option label="Zone No.1" value="shanghai"/>
           <el-option label="Zone No.2" value="beijing"/>
         </el-select>
@@ -24,25 +24,33 @@
 
 <script lang="ts" setup>
 
-import {defineProps, reactive, toRefs} from "vue";
+import {defineProps, reactive, toRefs, watch} from "vue";
 
 const props = defineProps<{
-  visible: boolean
+  visible: boolean,
+  form: { username: string }
 }>()
 
-const state = reactive({
-  form: {
-    name: ''
-  },
-  formLabelWidth: '120px'
+const state = reactive<{
+  formLabelWidth: string,
+  newForm: { username?: string }
+}>({
+  formLabelWidth: '120px',
+  newForm: {}
 })
 
-const {form, formLabelWidth} = toRefs(state)
+const {formLabelWidth, newForm} = toRefs(state)
 
 const emit = defineEmits<{
   //调用父组件close方法
   (event: 'close'): void
 }>()
+
+//拷贝form
+//父组件传过来的普通数据类型无法监听，可以改为箭头函数返回的形式
+watch(() => props.form, () => {
+  newForm.value = {...props.form}
+})
 
 //关闭弹窗
 const close = () => {
