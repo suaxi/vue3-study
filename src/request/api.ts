@@ -37,10 +37,16 @@ interface userListRes {
 export const loginApi = (data: loginData): PromiseRes<loginRes> => request.post('/admin/login', data)
 
 //当前登录用户信息
-export const  currentUserInfoApi = (): PromiseRes<userInfoRes> => request.get('/admin/info')
+export const currentUserInfoApi = (): PromiseRes<userInfoRes> => request.get('/admin/info')
 
 //用户列表
 export const userList = (data: userListParams): PromiseRes<userListRes> => request.get('/admin/list', {params: data})
 
 //修改用户信息
 export const updateUserInfo = (id: number, data: UserInfoObj): PromiseRes => request.post('/admin/update/' + id, data)
+
+//角色列表
+export const roleList = (): PromiseRes<RoleObj[]> => request.get('/role/listAll')
+
+//根据用户id获取角色信息
+export const getRoleByUserId = (id: number): PromiseRes<RoleObj[]> => request.get('/admin/role/' + id)

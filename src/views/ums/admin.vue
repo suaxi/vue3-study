@@ -21,30 +21,36 @@
     </el-table-column>
     <el-table-column label="操作">
       <template #default="{ row }">
-        <el-button type="text">分配角色</el-button>
+        <el-button type="text" @click="editRole(row.id)">分配角色</el-button>
         <el-button type="text" @click="edit(row)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
   <EditUserInfo :visible="visible" @close="close" :form="rowData"/>
+  <EditRoleInfo :visible="roleVisible" @close="closeRoleDialog" :form="roleData"/>
 </template>
 
 <script lang="ts" setup>
 import {reactive, toRefs} from "vue";
-import {userList} from '../../request/api'
+import {userList, roleList, getRoleByUserId} from '../../request/api'
 import EditUserInfo from './components/EditUserInfo.vue'
+import EditRoleInfo from './components/EditRoleInfo.vue'
 
 const state = reactive<{
   tableData: {}[],
   visible: boolean,
-  rowData: UserInfoObj
+  rowData: UserInfoObj,
+  roleVisible: boolean,
+  roleData: UserRoleFormData
 }>({
   tableData: [],
   visible: false,
-  rowData: {}
+  rowData: {},
+  roleVisible: false,
+  roleData: {}
 })
 
-const {tableData, visible, rowData} = toRefs(state)
+const {tableData, visible, rowData, roleVisible, roleData} = toRefs(state)
 
 const loadUserList = () => {
   userList({
@@ -58,10 +64,19 @@ const loadUserList = () => {
   })
 }
 
+const loadRoleList = () => {
+  roleList().then(res => {
+    if (res.code === 200) {
+      roleData.value.roleList = res.data;
+    }
+  })
+}
+
 //第一次进入页面时加载
 loadUserList();
+loadRoleList();
 
-//编辑
+//编辑用户信息
 const edit = (row: UserInfoObj) => {
   visible.value = true;
   rowData.value = row;
@@ -70,10 +85,27 @@ const edit = (row: UserInfoObj) => {
 //关闭弹框
 const close = (reload?: 'reload') => {
   visible.value = false;
+  //清空用户编辑弹框的数据
+  rowData.value = {};
   if (reload === 'reload') {
     //修改用户信息后刷新表格数据
     loadUserList();
   }
+}
+
+//编辑用户角色信息
+const editRole = (id: number) => {
+  getRoleByUserId(id).then(res => {
+    if (res.code === 200) {
+      roleVisible.value = true;
+      roleData.value.userRoles = res.data
+    }
+  });
+}
+
+//关闭角色信息编辑弹框
+const closeRoleDialog = () => {
+  roleVisible.value = false;
 }
 
 //格式化时间

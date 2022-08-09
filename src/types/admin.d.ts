@@ -7,3 +7,8 @@ interface UserInfoObj {
     note?: string,
     status?: number
 }
+
+interface UserRoleFormData {
+    userRoles: RoleObj[],
+    roleList: RoleObj[]
+}
