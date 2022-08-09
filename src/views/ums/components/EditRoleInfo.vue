@@ -17,6 +17,7 @@
 </template>
 
 <script lang="ts" setup>
+import {updateUserRole} from '../../../request/api'
 
 import {ref, watch} from "vue";
 
@@ -40,7 +41,11 @@ const close = () => {
 };
 
 const update = () => {
-  close();
+  updateUserRole({adminId: props.form.adminId, roleIds: roles.value.join(',')}).then(res => {
+    if (res.code === 200) {
+      close();
+    }
+  })
 };
 
 </script>

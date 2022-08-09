@@ -10,5 +10,6 @@ interface UserInfoObj {
 
 interface UserRoleFormData {
     userRoles: RoleObj[],
-    roleList: RoleObj[]
+    roleList: RoleObj[],
+    adminId: number
 }

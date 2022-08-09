@@ -47,7 +47,11 @@ const state = reactive<{
   visible: false,
   rowData: {},
   roleVisible: false,
-  roleData: {}
+  roleData: {
+    userRoles: [],
+    roleList: [],
+    adminId: 0
+  },
 })
 
 const {tableData, visible, rowData, roleVisible, roleData} = toRefs(state)
@@ -98,7 +102,8 @@ const editRole = (id: number) => {
   getRoleByUserId(id).then(res => {
     if (res.code === 200) {
       roleVisible.value = true;
-      roleData.value.userRoles = res.data
+      roleData.value.adminId = id;
+      roleData.value.userRoles = res.data;
     }
   });
 }
