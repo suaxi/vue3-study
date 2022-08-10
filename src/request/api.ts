@@ -2,39 +2,6 @@ import request from './request'
 // @ts-ignore
 import qs from 'qs';
 
-interface loginData {
-    password: string,
-    username: string
-}
-
-type PromiseRes<T = {}> = Promise<Result<T>>
-
-interface Result<T = {}> {
-    code: number,
-    data: T
-}
-
-//登录返回结果
-interface loginRes {
-    token: string,
-    tokenHead: string
-}
-
-//当前用户信息
-interface userInfoRes {
-    menus: []
-}
-
-interface userListParams {
-    keywords: string,
-    pageNum: number,
-    pageSize: number
-}
-
-interface userListRes {
-    list: []
-}
-
 //登录
 export const loginApi = (data: loginData): PromiseRes<loginRes> => request.post('/admin/login', data)
 
@@ -58,3 +25,6 @@ export const getRoleByUserId = (id: number): PromiseRes<RoleObj[]> => request.ge
 // export const updateUserRole = (data: {adminId: number, roleIds: string}): PromiseRes => request.post('/admin/role/update', null, {params: data})
 //roleIds formData形式
 export const updateUserRole = (data: { adminId: number, roleIds: string }): PromiseRes => request.post('/admin/role/update', qs.stringify(data))
+
+//获取首页数据
+export const adminStat = (): PromiseRes<IndexData> => request.get('http://kumanxuan1.f3322.net:8360/admin/stat')
