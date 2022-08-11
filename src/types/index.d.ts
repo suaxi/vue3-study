@@ -1,3 +1,4 @@
 interface IndexData {
-    salePie: {}[]
+    salePie: {}[];
+    saleMap: {}[]
 }
