@@ -17,17 +17,50 @@ const props = defineProps<{
 let myMap: echarts.ECharts;
 
 watch(() => props.data, () => {
+  const data = props.data.map((item: { [key: string]: string | number }) => ({
+    name: item.areaName,
+    value: item.saleNum
+  }))
+  console.log(data)
+
   if (!myMap) {
     myMap = echarts.init(document.getElementById('myMap') as HTMLElement);
     const option = {
+      tooltip: {
+        show: true,
+        formatter: '{b0} <br />销量： {c0}',
+        backgroundColor: 'rgba(50, 50, 50, 0.7)',
+        textStyle: {
+          color: '#fff'
+        }
+      },
       series: {
         type: 'map',
-        map: 'china'
+        map: 'china',
+        emphasis: {
+          label: {
+            show: false
+          },
+          itemStyle: {
+            areaColor: 'red'
+          }
+        },
+        itemStyle: {
+          borderColor: '#fff'
+        },
+        data
+      },
+      visualMap: {
+        type: 'continuous',
+        min: 0,
+        max: 1000000,
+        calculable: true
       }
     };
     myMap.setOption(option);
   }
 })
+
 </script>
 
 <style scoped>
