@@ -53,7 +53,7 @@ const dayChange = () => {
   initPie();
 }
 
-let myChart: any;
+let myChart: echarts.ECharts;
 
 const initPie = () => {
   let key = '';
@@ -63,7 +63,7 @@ const initPie = () => {
     key = selectLabel.value + selectDay.value
   }
 
-  const arr = props.data.map(item => ({value: item[key], name: item.name}));
+  const arr = props.data.map((item : {[key: string]: string}) => ({value: item[key], name: item.name}));
 
   //初始化实例
   if (!myChart) {
